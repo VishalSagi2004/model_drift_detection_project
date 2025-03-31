@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 5s  # Prometheus will collect metrics every 5 seconds
+
+scrape_configs:
+  - job_name: 'model-monitoring'
+    static_configs:
+      - targets: ['localhost:8000']

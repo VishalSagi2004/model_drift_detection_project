@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pkl
+.env
+mlruns/
+.idea/
+*.db
+venv/
+.vscode/
+*.log
+logs/

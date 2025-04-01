@@ -2,6 +2,13 @@ pipeline {
     agent any
 
     stages {
+        stage('Install Dependencies') {
+            steps {
+                echo "Installing Python dependencies from requirements.txt..."
+                // Install all required packages (including pandas)
+                sh 'pip install -r requirements.txt'
+            }
+        }
         stage('Drift Detection') {
             steps {
                 script {
@@ -17,7 +24,7 @@ pipeline {
                     } else {
                         echo "No significant drift detected."
                     }
-                    // Write the result to a file so that the next stage can read it.
+                    // Write the result to a file for use in the next stage.
                     writeFile file: 'drift_result.txt', text: driftDetected
                 }
             }

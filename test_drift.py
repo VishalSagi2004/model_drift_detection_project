@@ -9,16 +9,16 @@ url = "http://127.0.0.1:8000/predict"
 num_requests = 15
 
 for i in range(num_requests):
-    # Generate drifting values (randomized within a high range)
+    # Generate more extreme drifting values
     payload = {
-        "feature1": random.uniform(50, 100),  # Training mean ~5.8, so 50-100 simulates drift
-        "feature2": random.uniform(40, 80),   # Training mean ~3.06
-        "feature3": random.uniform(30, 70),   # Training mean ~3.73
-        "feature4": random.uniform(20, 60)    # Training mean ~1.18
+        "feature1": random.uniform(500, 1000),  # Much higher than training mean (~5.8)
+        "feature2": random.uniform(400, 800),    # Much higher than training mean (~3.06)
+        "feature3": random.uniform(300, 700),    # Much higher than training mean (~3.73)
+        "feature4": random.uniform(200, 600)     # Much higher than training mean (~1.18)
     }
     
     response = requests.post(url, json=payload)
     print(f"Response {i+1}: {response.json()} - Payload: {payload}")
     
-    # Optional: wait a short time between requests
+    # Wait a short time between requests
     time.sleep(0.5)

@@ -5,14 +5,14 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo "Installing Python dependencies from requirements.txt..."
-                // Use python3 -m pip to ensure you're using pip3
+                // Use python3 -m pip to install dependencies (pip3)
                 sh 'python3 -m pip install -r requirements.txt'
             }
         }
         stage('Drift Detection') {
             steps {
                 script {
-                    // Run the drift detector script and capture its output.
+                    // Run the drift detector and capture its output.
                     def driftOutput = sh(script: "python3 monitoring/drift_detector.py", returnStdout: true).trim()
                     echo "Drift Detector Output:\n${driftOutput}"
                     
@@ -24,7 +24,7 @@ pipeline {
                     } else {
                         echo "No significant drift detected."
                     }
-                    // Write the result to a file so that the next stage can read it.
+                    // Write the result to a file for use in the next stage.
                     writeFile file: 'drift_result.txt', text: driftDetected
                 }
             }
@@ -42,6 +42,14 @@ pipeline {
                         echo "No drift detected. Skipping retraining."
                     }
                 }
+            }
+        }
+        stage('Post-Retrain Verification') {
+            steps {
+                echo "Verifying updated model and training stats..."
+                // List file details for the model file and training stats.
+                sh "ls -l model/model_v1.pkl"
+                sh "ls -l monitoring/training_stats.json"
             }
         }
     }

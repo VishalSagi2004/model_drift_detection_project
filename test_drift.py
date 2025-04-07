@@ -9,16 +9,15 @@ url = "http://127.0.0.1:8000/predict"
 num_requests = 15
 
 for i in range(num_requests):
-    # Generate more extreme drifting values
+    # Generate normal values near original Iris training means
     payload = {
-        "feature1": random.uniform(500, 1000),  # Much higher than training mean (~5.8)
-        "feature2": random.uniform(400, 800),    # Much higher than training mean (~3.06)
-        "feature3": random.uniform(300, 700),    # Much higher than training mean (~3.73)
-        "feature4": random.uniform(200, 600)     # Much higher than training mean (~1.18)
+        "feature1": random.uniform(4.5, 7.5),   # Petal length
+        "feature2": random.uniform(2.0, 4.5),   # Sepal width
+        "feature3": random.uniform(1.0, 6.0),   # Petal width
+        "feature4": random.uniform(0.0, 2.5)    # Sepal length
     }
     
     response = requests.post(url, json=payload)
     print(f"Response {i+1}: {response.json()} - Payload: {payload}")
     
-    # Wait a short time between requests
     time.sleep(0.5)
